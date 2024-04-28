@@ -1,10 +1,10 @@
 name: Build and Test RAMCloud
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
-      - *
 
 jobs:
   build:
