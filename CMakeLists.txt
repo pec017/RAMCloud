@@ -4,6 +4,12 @@ PROJECT(LX-RDMA-RPC)
 
 set(CMAKE_CXX_STANDARD 11)
 
+
+# 添加gtest的源码目录
+add_subdirectory(/usr/src/gtest ${CMAKE_BINARY_DIR}/gtest)
+
+# 包括gtest的头文件
+include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 # find_package(Boost 1.53.0 REQUIRED COMPONENTS system thread)
 
 # if(Boost_FOUND)
@@ -14,74 +20,14 @@ set(CMAKE_CXX_STANDARD 11)
 # pkg_check_modules(PCRECPP REQUIRED libpcrecpp)
 # include_directories(${PCRECPP_INCLUDE_DIRS})
 
-# add_executable(server src/server.cc
-#         src/InfRcTransport.cc
-#         src/TcpTransport.cc
-#         src/Buffer.cc
-#         src/ServiceLocator.cc
-#         src/Logging.cc
-#         # src/TestUtil.cc # My gtest is newest, which needs C++14. To enable gperftools, you need to use C++11
-#         src/TransportManager.cc
-#         src/Common.cc
-#         src/IpAddress.cc
-#         src/Transport.cc
-#         src/Infiniband.cc
-#         src/Metrics.cc
-#         src/BenchUtil.cc
-#         src/Dispatch.cc
-#         src/TimeCounter.cc
-#         src/ServiceManager.cc
-#         src/Status.cc)
+include_directories(obj.240428/build-ubuntu1804)
+
+add_definitions(-DTESTING=1)
+
 
 # target_link_libraries(server profiler ibverbs ${PCRECPP_LIBRARIES} Boost::system Boost::thread )
 
-# add_executable(client src/client.cc
-#         src/InfRcTransport.cc
-#         src/TcpTransport.cc
-#         src/Buffer.cc
-#         src/ServiceLocator.cc
-#         src/Logging.cc
-#         # src/TestUtil.cc # My gtest is newest, which needs C++14. To enable gperftools, you need to use C++11
-#         src/TransportManager.cc
-#         src/Common.cc
-#         src/IpAddress.cc
-#         src/Transport.cc
-#         src/Infiniband.cc
-#         src/Metrics.cc
-#         src/BenchUtil.cc
-#         src/Dispatch.cc
-#         src/TimeCounter.cc
-#         src/ServiceManager.cc
-#         src/Status.cc)
 
-# target_link_libraries(client profiler ibverbs ${PCRECPP_LIBRARIES} Boost::system Boost::thread)
+add_executable(TcpTransportTest src/TcpTransportTest.cc)
 
-
-# add_executable(infRcTest src/InfRcTransportTest.cc
-#         src/TestUtil.cc
-#         src/InfRcTransport.cc
-#         src/TcpTransport.cc
-#         src/Buffer.cc
-#         src/ServiceLocator.cc
-#         src/Logging.cc
-#         src/TestUtil.cc
-#         src/TransportManager.cc
-#         src/Common.cc
-#         src/IpAddress.cc
-#         src/Transport.cc
-#         src/Infiniband.cc
-#         src/Metrics.cc
-#         src/BenchUtil.cc
-#         src/Dispatch.cc
-#         src/TimeCounter.cc
-#         src/ServiceManager.cc
-#         src/Status.cc)
-# # set C++14 to use gtest on my system, you can remove this property to use an old version of gtest
-# set_target_properties(infRcTest PROPERTIES
-# CXX_STANDARD 14
-# CXX_STANDARD_REQUIRED YES
-# CXX_EXTENSIONS NO
-# )
-
-# target_link_libraries(infRcTest ibverbs ${PCRECPP_LIBRARIES} gtest Boost::system Boost::thread)
-
+target_link_libraries(TcpTransportTest gtest gtest_main)
