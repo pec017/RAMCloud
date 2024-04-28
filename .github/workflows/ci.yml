@@ -32,6 +32,8 @@ jobs:
           sudo apt-get install -y openjdk-8-jdk libgtest-dev libzookeeper-mt-dev protobuf-compiler libprotobuf-dev libboost-all-dev
           wget http://launchpadlibrarian.net/57653337/doxygen_1.7.1-2_amd64.deb
           sudo dpkg -i doxygen_1.7.1-2_amd64.deb
+          PATH=$(echo "$PATH" | sed -e 's/:\/usr\/local\/lib\/jvm\/openjdk11\/bin//')
+          JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
 
       - name: Build and Test
         run: |
