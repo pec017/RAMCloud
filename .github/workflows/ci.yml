@@ -1,6 +1,7 @@
 name: Build and Test RAMCloud
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
@@ -8,8 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
-    env:
-      JAVA_HOME: /usr/lib/jvm/java-1.8.0-openjdk-amd64
 
     strategy:
       matrix:
@@ -30,11 +29,9 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libzookeeper-mt-dev protobuf-compiler libprotobuf-dev libboost-all-dev
+          sudo apt-get install -y openjdk-8-jdk libgtest-dev libzookeeper-mt-dev protobuf-compiler libprotobuf-dev libboost-all-dev
           wget http://launchpadlibrarian.net/57653337/doxygen_1.7.1-2_amd64.deb
           sudo dpkg -i doxygen_1.7.1-2_amd64.deb
-          sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-8-openjdk-amd64/bin/java 1
-          sudo update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/bin/java
 
       - name: Build and Test
         run: |
