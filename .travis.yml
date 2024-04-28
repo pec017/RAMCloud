@@ -28,7 +28,7 @@ before_install:
  - git submodule update --init --recursive
  - git checkout ${TRAVIS_BRANCH}
  - sudo apt-get update
- - sudo apt-get install -y libzookeeper-mt-dev protobuf-compiler libprotobuf-dev libboost-all-dev
+ - sudo apt-get install -y libssl-dev libzookeeper-mt-dev protobuf-compiler libprotobuf-dev libboost-all-dev openjdk-8-jdk cmake
  - wget http://launchpadlibrarian.net/57653337/doxygen_1.7.1-2_amd64.deb
  - sudo dpkg -i doxygen_1.7.1-2_amd64.deb
 # Quick hack to change the default java to openjdk8; the jdk specification
