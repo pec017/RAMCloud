@@ -7,18 +7,18 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     env:
       JAVA_HOME: /usr/lib/jvm/java-1.8.0-openjdk-amd64
 
     strategy:
       matrix:
         include:
-          - CMD: "make -j2"
-          - CMD: "make DEBUG=NO -j2"
-          - CMD: "make ZOOKEEPER_LIB='-lzookeeper_mt' INFINIBAND=no -j2"
+          - CMD: "make -j4"
+          - CMD: "make DEBUG=NO -j4"
+          - CMD: "make ZOOKEEPER_LIB='-lzookeeper_mt' INFINIBAND=no -j4"
           - CMD: "make check"
-          - CMD: "make -j2 && hooks/pre-commit-90docs"
+          - CMD: "make -j4 && hooks/pre-commit-90docs"
 
     steps:
       - name: Checkout code
