@@ -1,0 +1,39 @@
+name: Build and Test RAMCloud
+
+on:
+  push:
+    branches:
+      - master
+      - *
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        include:
+          - CMD: "make -j4"
+          - CMD: "make DEBUG=NO -j4"
+          - CMD: "make ZOOKEEPER_LIB='-lzookeeper_mt' INFINIBAND=no -j4"
+          - CMD: "make check"
+          - CMD: "make -j4 && hooks/pre-commit-90docs"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # - name: Update submodules
+      #   run: git submodule update --init --recursive
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openjdk-8-jdk libgtest-dev libzookeeper-mt-dev protobuf-compiler libprotobuf-dev libboost-all-dev
+          wget http://launchpadlibrarian.net/57653337/doxygen_1.7.1-2_amd64.deb
+          sudo dpkg -i doxygen_1.7.1-2_amd64.deb
+
+      - name: Build and Test
+        run: |
+          make clean
+          eval ${{ matrix.CMD }}
